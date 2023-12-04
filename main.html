@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"/>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <mate name="viewport" content="width=device-width"/>
+        <title>Data Visualizer</title>
+        <link href="style/generalstyle.css" rel="stylesheet">
+        <link href="style/actionstyle.css" rel="stylesheet">
+        <script src="script/interact.js" ></script>
+
+        <!--   Site-spesificiale Style   -->
+        <style>
+            textarea{
+                width: 70%;
+                height: 100%;
+                min-width: 200px;
+                min-height: 100px;
+                text-align: left;
+            }
+            select{
+                display: inline-block;
+                width:150px;
+                background-color: #969FE2;
+                margin: 2px;
+                padding: 10px 15px;
+                border-radius: 5px;
+                border-color: transparent;
+            }
+
+            #result{
+                display: none;
+            }
+
+        </style>
+    </head>
+</html>
+
+
+<body>
+    <header>
+        <h1>
+            Data Visualizer
+        </h1>
+    </header>
+
+    <main style="text-align: center;">
+
+        
+        <div id="prepare">
+            <!-- Input Area for daten and function -->
+            <textarea id="text_box" name="textinput" placeholder="Typ here..."></textarea>
+
+            <!-- Here the funtional buttons -->
+            <div>
+                <!-- Formal and real Button for add data --> 
+                <button type="button" id="addDataButton" >
+                    Add Data
+                </button>
+                <input type="file" id="dataFile" name="dataFile" accept=".CSV" style="display: none;">    
+                
+                <!-- Choose Funciton Button -->
+                <select id="D_function" name="selcetFunction">
+                    <option value="Euclidean">Euclidean distance</option>
+                    <option value="Tanimoto">Tanimoto distance</option>
+                </select>
+            </div>
+            
+            <div>
+                <!-- Delete All Button -->
+                <button id="deleAllButton" onclick="deletedatenandfunc()">
+                    Delete All
+                </button>
+                <!-- Run function Button -->
+                <button id="runFuncButton" onclick="dealwithrun()">
+                    Run
+                </button>
+            </div>
+        </div>
+
+        
+        <!-- Here for result, will only be showed after click -->
+        <div id="result" >
+
+            <!-- Information Box -->
+            <div id="InforArea" style="width: 50%; text-align: left;">
+                <table id="InforList" style="padding: 5px; border: 1px solid;">
+                    <tr>
+                        <td>Cluster Information</td>
+                    </tr>
+                    <tr>
+                        <td>cluster 1</td>
+                    </tr>
+                    <tr>
+                       <td>cluster 2</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- map Container with .js
+            <div id="chartContainer" style="width: 50%; height: 100%;">
+                <button type="button" style="float: right;">full screen</button>
+            </div>
+            -->
+
+
+            <!-- map Container with html-->
+            <div id="mapContainer" style="width: 80%; min-height: 400px;" >
+                <button type="button" style="float: right;" onclick="window.open('mapstuff.html')">full screen</button>
+                <div id="mapHTMLContainer" style="width: 100%; height: 100%; margin-right: 15px;">
+                    <iframe  src="mapstuff.html"; style="border: none;" scrolling="auto"  width="100%" height="100%;">Here should be the map</iframe>
+                </div>
+                
+            </div>
+        </div>
+
+        
+    </main>
+
+    <footer>
+        <div>
+            <!-- Back Button -->
+            <button id="BackButton" style="float: right;" onclick="back2input()">
+                Start New
+            </button>
+        </div> 
+    </footer>
+</body>
+
+<script>
+    document.getElementById('addDataButton').addEventListener('click', function () {
+            document.getElementById('dataFile').click();
+        });
+    document.getElementById('dataFile').addEventListener('change', function () {
+            var fileInput = document.getElementById('dataFile');
+            var file = fileInput.files[0];
+
+            if (file && file.name.endsWith('.csv')) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Display or process the contents of the CSV file here
+                    var csvContent = e.target.result;
+                    alert('Data uploaded successfully!\n\nCSV Content:\n' + csvContent);
+                };
+
+                reader.readAsText(file);
+            } else {
+                alert('Please select a valid CSV file.');
+            }
+        });
+
+
+</script>
